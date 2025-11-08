@@ -2,8 +2,10 @@
   <h1>Issue Tracker</h1>
   <ul>
     <li><a routerLink="/">Issues</a></li>
-    <li><a routerLink="/new">New Issue</a></li>
-    <li><a routerLink="/projects">Projects</a></li>
-    <li><a routerLink="/users">Users</a></li>
+    <li *ngIf="auth.isAuthenticated"><a routerLink="/new">New Issue</a></li>
+    <li *ngIf="auth.isAdmin"><a routerLink="/projects">Projects</a></li>
+    <li *ngIf="auth.isAdmin"><a routerLink="/users">Users</a></li>
+    <li class="ms-auto" *ngIf="!auth.isAuthenticated"><a routerLink="/login">Login</a></li>
+    <li class="ms-auto" *ngIf="auth.isAuthenticated"><a (click)="logout()" style="cursor:pointer">Logout</a></li>
   </ul>
 </nav>
