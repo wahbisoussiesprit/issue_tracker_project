@@ -6,6 +6,7 @@
     <li *ngIf="auth.isAdmin"><a routerLink="/projects">Projects</a></li>
     <li *ngIf="auth.isAdmin"><a routerLink="/users">Users</a></li>
     <li class="ms-auto" *ngIf="!auth.isAuthenticated"><a routerLink="/login">Login</a></li>
+    <li *ngIf="!auth.isAuthenticated"><a routerLink="/register">Register</a></li>
     <li class="ms-auto" *ngIf="auth.isAuthenticated"><a (click)="logout()" style="cursor:pointer">Logout</a></li>
   </ul>
 </nav>

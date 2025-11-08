@@ -26,6 +26,11 @@ export class AuthService {
       .pipe(tap(res => this.setAuth(res)));
   }
 
+  register(username: string, email: string, password: string, role?: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('http://localhost:8080/api/auth/register', { username, email, password, role })
+      .pipe(tap(res => this.setAuth(res)));
+  }
+
   logout() {
     this.clearAuth();
   }
