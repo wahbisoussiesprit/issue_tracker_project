@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Navbar } from './components/navbar/navbar'; // ✅ import your Navbar
+import { NavbarComponent } from './components/navbar/navbar';
 
 @Component({
   selector: 'app-root',
   standalone: true, // ✅ tell Angular this is a standalone component
-  imports: [RouterOutlet, Navbar], // ✅ include the Navbar here
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })

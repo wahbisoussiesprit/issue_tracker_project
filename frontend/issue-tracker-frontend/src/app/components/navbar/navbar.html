@@ -1,12 +1,18 @@
 <nav class="navbar">
   <h1>Issue Tracker</h1>
   <ul>
-    <li><a routerLink="/">Issues</a></li>
+    <!-- Authenticated: show app links -->
+    <li *ngIf="auth.isAuthenticated"><a routerLink="/">Issues</a></li>
     <li *ngIf="auth.isAuthenticated"><a routerLink="/new">New Issue</a></li>
     <li *ngIf="auth.isAdmin"><a routerLink="/projects">Projects</a></li>
     <li *ngIf="auth.isAdmin"><a routerLink="/users">Users</a></li>
-    <li class="ms-auto" *ngIf="!auth.isAuthenticated"><a routerLink="/login">Login</a></li>
-    <li *ngIf="!auth.isAuthenticated"><a routerLink="/register">Register</a></li>
+
+    <!-- Right side actions -->
     <li class="ms-auto" *ngIf="auth.isAuthenticated"><a (click)="logout()" style="cursor:pointer">Logout</a></li>
+
+    <!-- Logged out: show single toggle button -->
+    <li class="ms-auto" *ngIf="!auth.isAuthenticated && isLoginRoute"><a routerLink="/register">Register</a></li>
+    <li class="ms-auto" *ngIf="!auth.isAuthenticated && isRegisterRoute"><a routerLink="/login">Login</a></li>
+    <li class="ms-auto" *ngIf="!auth.isAuthenticated && !(isLoginRoute || isRegisterRoute)"><a routerLink="/login">Login</a></li>
   </ul>
 </nav>
