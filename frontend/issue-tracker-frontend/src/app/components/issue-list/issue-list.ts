@@ -1,11 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Issue } from '../../models/issue.model';
+import { IssueService } from '../../services/issue';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-issue-list',
-  imports: [],
-  templateUrl: './issue-list.html',
-  styleUrl: './issue-list.scss',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './issue-list.html'
 })
-export class IssueList {
+export class IssueListComponent implements OnInit {
+  issues: Issue[] = [];
 
+  constructor(private issueService: IssueService) {}
+
+  ngOnInit(): void {
+    this.loadIssues();
+  }
+
+  loadIssues() {
+    this.issueService.getAllIssues().subscribe(data => {
+      this.issues = data;
+    });
+  }
+
+  deleteIssue(id: number) {
+    if (confirm('Are you sure you want to delete this issue?')) {
+      this.issueService.deleteIssue(id).subscribe(() => this.loadIssues());
+    }
+  }
 }

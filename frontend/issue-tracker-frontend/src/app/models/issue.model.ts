@@ -1,0 +1,11 @@
+export interface Issue {
+  id?: number;
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  projectId: number;
+  assignedTo: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
