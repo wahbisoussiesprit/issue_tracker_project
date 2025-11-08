@@ -24,6 +24,15 @@ export class ProjectService {
     return this.http.post<Project>(this.apiUrl, dto);
   }
 
+  updateProject(id: number, input: { name: string; description: string; createdById?: number }): Observable<Project> {
+    const dto = {
+      name: input.name,
+      description: input.description,
+      createdById: input.createdById ?? null
+    };
+    return this.http.put<Project>(`${this.apiUrl}/${id}`, dto);
+  }
+
   deleteProject(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

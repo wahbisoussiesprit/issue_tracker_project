@@ -30,10 +30,27 @@
     <tbody>
       <tr *ngFor="let p of projects">
         <td>{{ p.id }}</td>
-        <td>{{ p.name }}</td>
-        <td>{{ p.description }}</td>
         <td>
-          <button class="btn btn-danger btn-sm" (click)="remove(p.id!)">Delete</button>
+          <ng-container *ngIf="editId !== p.id; else editNameTpl">{{ p.name }}</ng-container>
+          <ng-template #editNameTpl>
+            <input class="form-control" [(ngModel)]="editName" name="editName_{{p.id}}">
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="editId !== p.id; else editDescTpl">{{ p.description }}</ng-container>
+          <ng-template #editDescTpl>
+            <input class="form-control" [(ngModel)]="editDescription" name="editDescription_{{p.id}}">
+          </ng-template>
+        </td>
+        <td class="d-flex gap-2">
+          <ng-container *ngIf="editId !== p.id; else editActionsTpl">
+            <button class="btn btn-secondary btn-sm" (click)="startEdit(p)">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="remove(p.id!)">Delete</button>
+          </ng-container>
+          <ng-template #editActionsTpl>
+            <button class="btn btn-success btn-sm" (click)="saveEdit(p.id!)">Save</button>
+            <button class="btn btn-outline-secondary btn-sm" (click)="cancelEdit()">Cancel</button>
+          </ng-template>
         </td>
       </tr>
     </tbody>

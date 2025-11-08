@@ -13,11 +13,33 @@
     </thead>
     <tbody>
       <tr *ngFor="let issue of issues">
-        <td>{{ issue.title }}</td>
-        <td>{{ issue.status }}</td>
-        <td>{{ issue.priority }}</td>
         <td>
-          <button class="btn btn-danger btn-sm" (click)="deleteIssue(issue.id!)">Delete</button>
+          <ng-container *ngIf="editId !== issue.id; else titleEditTpl">{{ issue.title }}</ng-container>
+          <ng-template #titleEditTpl>
+            <input class="form-control" [(ngModel)]="editTitle" name="editTitle_{{issue.id}}">
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="editId !== issue.id; else statusEditTpl">{{ issue.status }}</ng-container>
+          <ng-template #statusEditTpl>
+            <input class="form-control" [(ngModel)]="editStatus" name="editStatus_{{issue.id}}">
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="editId !== issue.id; else priorityEditTpl">{{ issue.priority }}</ng-container>
+          <ng-template #priorityEditTpl>
+            <input class="form-control" [(ngModel)]="editPriority" name="editPriority_{{issue.id}}">
+          </ng-template>
+        </td>
+        <td class="d-flex gap-2">
+          <ng-container *ngIf="editId !== issue.id; else editActionsTpl">
+            <button class="btn btn-secondary btn-sm" (click)="startEdit(issue)">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteIssue(issue.id!)">Delete</button>
+          </ng-container>
+          <ng-template #editActionsTpl>
+            <button class="btn btn-success btn-sm" (click)="saveEdit(issue.id!)">Save</button>
+            <button class="btn btn-outline-secondary btn-sm" (click)="cancelEdit()">Cancel</button>
+          </ng-template>
         </td>
       </tr>
     </tbody>

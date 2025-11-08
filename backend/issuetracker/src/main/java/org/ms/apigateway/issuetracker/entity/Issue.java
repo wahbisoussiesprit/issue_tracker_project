@@ -3,6 +3,7 @@ package org.ms.apigateway.issuetracker.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "issues")
@@ -30,6 +31,7 @@ public class Issue {
 
     @ManyToOne
     @JoinColumn(name = "project_id")
+    @JsonBackReference
     private Project project;
 
     private LocalDateTime createdAt;

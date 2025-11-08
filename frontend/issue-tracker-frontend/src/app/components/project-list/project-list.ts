@@ -17,6 +17,11 @@ export class ProjectList {
   description = '';
   createdById?: number;
 
+  editId?: number;
+  editName = '';
+  editDescription = '';
+  editCreatedById?: number;
+
   constructor(private projectService: ProjectService) {
     this.load();
   }
@@ -40,5 +45,31 @@ export class ProjectList {
     if (confirm('Delete this project?')) {
       this.projectService.deleteProject(id).subscribe(() => this.load());
     }
+  }
+
+  startEdit(p: Project) {
+    this.editId = p.id;
+    this.editName = p.name ?? '';
+    this.editDescription = p.description ?? '';
+    this.editCreatedById = (p as any).createdById ?? undefined;
+  }
+
+  cancelEdit() {
+    this.editId = undefined;
+    this.editName = '';
+    this.editDescription = '';
+    this.editCreatedById = undefined;
+  }
+
+  saveEdit(id: number) {
+    if (!this.editName.trim()) return;
+    this.projectService.updateProject(id, {
+      name: this.editName,
+      description: this.editDescription,
+      createdById: this.editCreatedById
+    }).subscribe(() => {
+      this.cancelEdit();
+      this.load();
+    });
   }
 }
