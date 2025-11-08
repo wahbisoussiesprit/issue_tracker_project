@@ -1,1 +1,41 @@
-<p>project-list works!</p>
+<div class="container mt-4">
+  <h2>Projects</h2>
+
+  <form (ngSubmit)="add()" class="mb-3">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <input class="form-control" [(ngModel)]="name" name="name" placeholder="Name" required>
+      </div>
+      <div class="col-md-5">
+        <input class="form-control" [(ngModel)]="description" name="description" placeholder="Description">
+      </div>
+      <div class="col-md-2">
+        <input type="number" class="form-control" [(ngModel)]="createdById" name="createdById" placeholder="Created By (User ID)">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">Add</button>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of projects">
+        <td>{{ p.id }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.description }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="remove(p.id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

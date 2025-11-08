@@ -9,6 +9,18 @@
       <label>Description</label>
       <textarea class="form-control" [(ngModel)]="issue.description" name="description"></textarea>
     </div>
+    <div class="mb-3">
+      <label class="form-label">Project</label>
+      <select class="form-select" [(ngModel)]="issue.projectId" name="projectId" required>
+        <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Assign To</label>
+      <select class="form-select" [(ngModel)]="issue.assignedTo" name="assignedTo">
+        <option *ngFor="let u of users" [value]="u.id">{{ u.username }}</option>
+      </select>
+    </div>
     <button type="submit" class="btn btn-success">Save</button>
   </form>
 </div>

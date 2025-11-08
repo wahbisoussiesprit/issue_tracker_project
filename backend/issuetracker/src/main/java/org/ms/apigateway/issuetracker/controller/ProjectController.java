@@ -6,6 +6,8 @@ import org.ms.apigateway.issuetracker.service.ProjectService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import org.ms.apigateway.issuetracker.dto.ProjectDto;
 
 @RestController
 @RequestMapping("/api/projects")
@@ -19,9 +21,19 @@ public class ProjectController {
         return projectService.getAllProjects();
     }
 
+    @GetMapping("/{id}")
+    public Optional<Project> getProject(@PathVariable Long id) {
+        return projectService.getProjectById(id);
+    }
+
     @PostMapping
-    public Project createProject(@RequestBody Project project) {
-        return projectService.createProject(project);
+    public Project createProject(@RequestBody ProjectDto dto) {
+        return projectService.createFromDto(dto);
+    }
+
+    @PutMapping("/{id}")
+    public Optional<Project> updateProject(@PathVariable Long id, @RequestBody ProjectDto dto) {
+        return projectService.updateFromDto(id, dto);
     }
 
     @DeleteMapping("/{id}")

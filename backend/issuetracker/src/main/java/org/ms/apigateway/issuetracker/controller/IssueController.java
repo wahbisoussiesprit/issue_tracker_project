@@ -6,6 +6,8 @@ import org.ms.apigateway.issuetracker.service.IssueService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import org.ms.apigateway.issuetracker.dto.IssueDto;
 
 @RestController
 @RequestMapping("/api/issues")
@@ -19,9 +21,19 @@ public class IssueController {
         return issueService.getAllIssues();
     }
 
+    @GetMapping("/{id}")
+    public Optional<Issue> getIssue(@PathVariable Long id) {
+        return issueService.getIssueById(id);
+    }
+
     @PostMapping
-    public Issue createIssue(@RequestBody Issue issue) {
-        return issueService.createIssue(issue);
+    public Issue createIssue(@RequestBody IssueDto dto) {
+        return issueService.createIssueFromDto(dto);
+    }
+
+    @PutMapping("/{id}")
+    public Optional<Issue> updateIssue(@PathVariable Long id, @RequestBody IssueDto dto) {
+        return issueService.updateIssue(id, dto);
     }
 
     @DeleteMapping("/{id}")

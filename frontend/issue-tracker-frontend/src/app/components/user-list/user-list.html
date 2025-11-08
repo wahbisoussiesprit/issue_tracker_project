@@ -1,1 +1,46 @@
-<p>user-list works!</p>
+<div class="container mt-4">
+  <h2>Users</h2>
+
+  <form (ngSubmit)="add()" class="mb-3">
+    <div class="row g-2">
+      <div class="col-md-3">
+        <input class="form-control" [(ngModel)]="username" name="username" placeholder="Username" required>
+      </div>
+      <div class="col-md-3">
+        <input type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="Email" required>
+      </div>
+      <div class="col-md-2">
+        <input class="form-control" [(ngModel)]="role" name="role" placeholder="Role (e.g. ADMIN)">
+      </div>
+      <div class="col-md-2">
+        <input type="password" class="form-control" [(ngModel)]="password" name="password" placeholder="Password">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">Add</button>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users">
+        <td>{{ u.id }}</td>
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.role }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="remove(u.id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

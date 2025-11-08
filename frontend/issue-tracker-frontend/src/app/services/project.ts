@@ -15,8 +15,13 @@ export class ProjectService {
     return this.http.get<Project[]>(this.apiUrl);
   }
 
-  createProject(project: Project): Observable<Project> {
-    return this.http.post<Project>(this.apiUrl, project);
+  createProject(input: { name: string; description: string; createdById?: number }): Observable<Project> {
+    const dto = {
+      name: input.name,
+      description: input.description,
+      createdById: input.createdById ?? null
+    };
+    return this.http.post<Project>(this.apiUrl, dto);
   }
 
   deleteProject(id: number): Observable<void> {
