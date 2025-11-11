@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F7F7F7;
+  --surface: #FFFFFF;
+  --text: #333333;
+  --primary: #1E90FF;
+  --primary-hover: #007BFF;
+}
+
+.dark {
+  --bg: #2D2D2D;
+  --surface: #1F1F1F;
+  --text: #FFFFFF;
+  --primary: #1E90FF;
+  --primary-hover: #007BFF;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  @apply font-sans antialiased;
+}
+
+.card {
+  @apply bg-white dark:bg-neutral-900 rounded-xl shadow-card border border-neutral-200/60 dark:border-neutral-800;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-primary-hover;
+}

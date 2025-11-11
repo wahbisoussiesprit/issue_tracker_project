@@ -18,6 +18,11 @@ export class UserList {
   role = '';
   password = '';
 
+  editId?: number;
+  editUsername = '';
+  editEmail = '';
+  editRole = '';
+
   constructor(private userService: UserService) {
     this.load();
   }
@@ -42,5 +47,31 @@ export class UserList {
     if (confirm('Delete this user?')) {
       this.userService.deleteUser(id).subscribe(() => this.load());
     }
+  }
+
+  startEdit(u: User) {
+    this.editId = u.id;
+    this.editUsername = u.username ?? '';
+    this.editEmail = u.email ?? '';
+    this.editRole = u.role ?? '';
+  }
+
+  cancelEdit() {
+    this.editId = undefined;
+    this.editUsername = '';
+    this.editEmail = '';
+    this.editRole = '';
+  }
+
+  saveEdit(id: number) {
+    const payload: Partial<User> = {
+      username: this.editUsername,
+      email: this.editEmail,
+      role: this.editRole
+    };
+    this.userService.updateUser(id, payload).subscribe(() => {
+      this.cancelEdit();
+      this.load();
+    });
   }
 }

@@ -1,46 +1,62 @@
-<div class="container mt-4">
-  <h2>Users</h2>
+<div class="mx-auto max-w-7xl px-4 py-6">
+  <h2 class="text-xl font-semibold mb-4">Users</h2>
 
-  <form (ngSubmit)="add()" class="mb-3">
-    <div class="row g-2">
-      <div class="col-md-3">
-        <input class="form-control" [(ngModel)]="username" name="username" placeholder="Username" required>
-      </div>
-      <div class="col-md-3">
-        <input type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="Email" required>
-      </div>
-      <div class="col-md-2">
-        <input class="form-control" [(ngModel)]="role" name="role" placeholder="Role (e.g. ADMIN)">
-      </div>
-      <div class="col-md-2">
-        <input type="password" class="form-control" [(ngModel)]="password" name="password" placeholder="Password">
-      </div>
-      <div class="col-md-2">
-        <button class="btn btn-primary w-100" type="submit">Add</button>
-      </div>
+  <form (ngSubmit)="add()" class="mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+      <input class="rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" [(ngModel)]="username" name="username" placeholder="Username" required>
+      <input type="email" class="rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" [(ngModel)]="email" name="email" placeholder="Email" required>
+      <input class="rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" [(ngModel)]="role" name="role" placeholder="Role (e.g. ADMIN)">
+      <input type="password" class="rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" [(ngModel)]="password" name="password" placeholder="Password">
+      <button class="btn-primary" type="submit">Add</button>
     </div>
   </form>
 
-  <table class="table table-bordered table-striped">
-    <thead class="table-dark">
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let u of users">
-        <td>{{ u.id }}</td>
-        <td>{{ u.username }}</td>
-        <td>{{ u.email }}</td>
-        <td>{{ u.role }}</td>
-        <td>
-          <button class="btn btn-danger btn-sm" (click)="remove(u.id!)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="overflow-x-auto rounded-xl border border-neutral-200/60 dark:border-neutral-800">
+    <table class="min-w-full text-sm">
+      <thead class="bg-neutral-100 dark:bg-neutral-900">
+        <tr class="text-left">
+          <th class="px-4 py-2">ID</th>
+          <th class="px-4 py-2">Username</th>
+          <th class="px-4 py-2">Email</th>
+          <th class="px-4 py-2">Role</th>
+          <th class="px-4 py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users" class="border-t border-neutral-200/60 dark:border-neutral-800">
+          <td class="px-4 py-2">{{ u.id }}</td>
+          <td class="px-4 py-2">
+            <ng-container *ngIf="editId !== u.id; else editUsernameTpl">{{ u.username }}</ng-container>
+            <ng-template #editUsernameTpl>
+              <input class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-2 py-1" [(ngModel)]="editUsername" name="editUsername_{{u.id}}">
+            </ng-template>
+          </td>
+          <td class="px-4 py-2">
+            <ng-container *ngIf="editId !== u.id; else editEmailTpl">{{ u.email }}</ng-container>
+            <ng-template #editEmailTpl>
+              <input type="email" class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-2 py-1" [(ngModel)]="editEmail" name="editEmail_{{u.id}}">
+            </ng-template>
+          </td>
+          <td class="px-4 py-2">
+            <ng-container *ngIf="editId !== u.id; else editRoleTpl">{{ u.role }}</ng-container>
+            <ng-template #editRoleTpl>
+              <input class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-2 py-1" [(ngModel)]="editRole" name="editRole_{{u.id}}">
+            </ng-template>
+          </td>
+          <td class="px-4 py-2">
+            <div class="flex gap-2">
+              <ng-container *ngIf="editId !== u.id; else editActionsTpl">
+                <button class="rounded-md border border-neutral-300 dark:border-neutral-700 px-3 py-1" (click)="startEdit(u)">Edit</button>
+                <button class="rounded-md bg-red-500 text-white px-3 py-1 hover:bg-red-600" (click)="remove(u.id!)">Delete</button>
+              </ng-container>
+              <ng-template #editActionsTpl>
+                <button class="rounded-md bg-green-600 text-white px-3 py-1 hover:bg-green-700" (click)="saveEdit(u.id!)">Save</button>
+                <button class="rounded-md border border-neutral-300 dark:border-neutral-700 px-3 py-1" (click)="cancelEdit()">Cancel</button>
+              </ng-template>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

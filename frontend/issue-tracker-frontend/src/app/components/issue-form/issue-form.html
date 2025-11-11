@@ -1,26 +1,52 @@
-<div class="container mt-4">
-  <h2>Create Issue</h2>
-  <form (ngSubmit)="submit()">
-    <div class="mb-3">
-      <label class="form-label">Title</label>
-      <input class="form-control" [(ngModel)]="issue.title" name="title" required>
-    </div>
-    <div class="mb-3">
-      <label>Description</label>
-      <textarea class="form-control" [(ngModel)]="issue.description" name="description"></textarea>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Project</label>
-      <select class="form-select" [(ngModel)]="issue.projectId" name="projectId" required>
-        <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Assign To</label>
-      <select class="form-select" [(ngModel)]="issue.assignedTo" name="assignedTo">
-        <option *ngFor="let u of users" [value]="u.id">{{ u.username }}</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-success">Save</button>
-  </form>
+<div class="mx-auto max-w-3xl px-4 py-6">
+  <div class="card p-6">
+    <h2 class="text-xl font-semibold mb-4">Create Issue</h2>
+    <form (ngSubmit)="submit()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="md:col-span-2">
+        <label class="block text-sm mb-1">Title</label>
+        <input class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" [(ngModel)]="issue.title" name="title" required>
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-sm mb-1">Description</label>
+        <textarea class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" rows="4" [(ngModel)]="issue.description" name="description"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Status</label>
+        <select class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" [(ngModel)]="issue.status" name="status">
+          <option value="OPEN">OPEN</option>
+          <option value="IN_PROGRESS">IN_PROGRESS</option>
+          <option value="CLOSED">CLOSED</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Priority</label>
+        <select class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" [(ngModel)]="issue.priority" name="priority">
+          <option value="LOW">LOW</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="HIGH">HIGH</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Project</label>
+        <select class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" [(ngModel)]="issue.projectId" name="projectId" required>
+          <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm mb-1">Assign To</label>
+        <select class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2" [(ngModel)]="issue.assignedTo" name="assignedTo">
+          <option *ngFor="let u of users" [value]="u.id">{{ u.username }}</option>
+        </select>
+      </div>
+
+      <div class="md:col-span-2 flex justify-end">
+        <button type="submit" class="btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
 </div>

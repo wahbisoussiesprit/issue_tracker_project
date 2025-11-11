@@ -1,18 +1,28 @@
-<nav class="navbar">
-  <h1>Issue Tracker</h1>
-  <ul>
-    <!-- Authenticated: show app links -->
-    <li *ngIf="auth.isAuthenticated"><a routerLink="/">Issues</a></li>
-    <li *ngIf="auth.isAuthenticated"><a routerLink="/new">New Issue</a></li>
-    <li *ngIf="auth.isAdmin"><a routerLink="/projects">Projects</a></li>
-    <li *ngIf="auth.isAdmin"><a routerLink="/users">Users</a></li>
+<nav class="sticky top-0 z-50 w-full border-b border-neutral-200/60 dark:border-neutral-800 bg-[var(--surface)]/90 backdrop-blur">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-4">
+    <a routerLink="/" class="font-semibold text-lg text-primary">Issue Tracker</a>
 
-    <!-- Right side actions -->
-    <li class="ms-auto" *ngIf="auth.isAuthenticated"><a (click)="logout()" style="cursor:pointer">Logout</a></li>
+    <div class="hidden md:flex items-center gap-4" *ngIf="auth.isAuthenticated">
+      <a routerLink="/" class="hover:underline">Issues</a>
+      <a routerLink="/new" class="hover:underline">New Issue</a>
+      <a routerLink="/projects" *ngIf="auth.isAdmin" class="hover:underline">Projects</a>
+      <a routerLink="/users" *ngIf="auth.isAdmin" class="hover:underline">Users</a>
+    </div>
 
-    <!-- Logged out: show single toggle button -->
-    <li class="ms-auto" *ngIf="!auth.isAuthenticated && isLoginRoute"><a routerLink="/register">Register</a></li>
-    <li class="ms-auto" *ngIf="!auth.isAuthenticated && isRegisterRoute"><a routerLink="/login">Login</a></li>
-    <li class="ms-auto" *ngIf="!auth.isAuthenticated && !(isLoginRoute || isRegisterRoute)"><a routerLink="/login">Login</a></li>
-  </ul>
+    <div class="ml-auto flex items-center gap-3">
+      <button class="rounded-md border border-neutral-300 dark:border-neutral-700 px-2 py-1 text-sm"
+              (click)="toggleTheme()">Toggle theme</button>
+
+      <ng-container *ngIf="auth.isAuthenticated; else loggedOut">
+        <span class="text-sm text-neutral-700 dark:text-neutral-300">Welcome, {{ (auth.username$ | async) || 'User' }}</span>
+        <button class="rounded-md bg-red-500 text-white px-3 py-1 text-sm hover:bg-red-600"
+                (click)="logout()">Logout</button>
+      </ng-container>
+      <ng-template #loggedOut>
+        <a class="btn-primary text-sm" routerLink="/register" *ngIf="isLoginRoute">Register</a>
+        <a class="btn-primary text-sm" routerLink="/login" *ngIf="isRegisterRoute">Login</a>
+        <a class="btn-primary text-sm" routerLink="/login" *ngIf="!(isLoginRoute || isRegisterRoute)">Login</a>
+      </ng-template>
+    </div>
+  </div>
 </nav>

@@ -8,6 +8,9 @@ import org.ms.apigateway.issuetracker.repository.IssueRepository;
 import org.ms.apigateway.issuetracker.repository.ProjectRepository;
 import org.ms.apigateway.issuetracker.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +61,13 @@ public class IssueService {
         issue.setDescription(dto.description);
         issue.setStatus(dto.status);
         issue.setPriority(dto.priority);
+        // New fields
+        issue.setTags(dto.tags);
+        if (dto.dueDate != null && !dto.dueDate.isBlank()) {
+            issue.setDueDate(java.time.LocalDate.parse(dto.dueDate));
+        } else {
+            issue.setDueDate(null);
+        }
 
         if (dto.projectId != null) {
             Project project = projectRepository.findById(dto.projectId)
@@ -74,5 +84,43 @@ public class IssueService {
         } else {
             issue.setAssignedTo(null);
         }
+    }
+
+    public Page<Issue> search(
+            String status,
+            String priority,
+            Long assigneeId,
+            Long projectId,
+            String fromDate,
+            String toDate,
+            String tags,
+            Pageable pageable
+    ) {
+        Specification<Issue> spec = Specification.where(null);
+        if (status != null && !status.isBlank()) {
+            spec = spec.and((root, q, cb) -> cb.equal(root.get("status"), status));
+        }
+        if (priority != null && !priority.isBlank()) {
+            spec = spec.and((root, q, cb) -> cb.equal(root.get("priority"), priority));
+        }
+        if (assigneeId != null) {
+            spec = spec.and((root, q, cb) -> cb.equal(root.join("assignedTo").get("id"), assigneeId));
+        }
+        if (projectId != null) {
+            spec = spec.and((root, q, cb) -> cb.equal(root.join("project").get("id"), projectId));
+        }
+        if (fromDate != null && !fromDate.isBlank()) {
+            java.time.LocalDate from = java.time.LocalDate.parse(fromDate);
+            spec = spec.and((root, q, cb) -> cb.greaterThanOrEqualTo(root.get("dueDate"), from));
+        }
+        if (toDate != null && !toDate.isBlank()) {
+            java.time.LocalDate to = java.time.LocalDate.parse(toDate);
+            spec = spec.and((root, q, cb) -> cb.lessThanOrEqualTo(root.get("dueDate"), to));
+        }
+        if (tags != null && !tags.isBlank()) {
+            // simple contains match in comma-separated list
+            spec = spec.and((root, q, cb) -> cb.like(cb.lower(root.get("tags")), "%" + tags.toLowerCase() + "%"));
+        }
+        return issueRepository.findAll(spec, pageable);
     }
 }

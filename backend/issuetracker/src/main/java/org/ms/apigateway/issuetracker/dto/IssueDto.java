@@ -8,4 +8,6 @@ public class IssueDto {
     public String priority;
     public Long projectId;
     public Long assignedTo; // user id
+    public String dueDate; // ISO date (yyyy-MM-dd)
+    public String tags;    // comma-separated tags
 }

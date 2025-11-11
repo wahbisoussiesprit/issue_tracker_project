@@ -6,6 +6,8 @@ export interface Issue {
   priority: string;
   projectId: number;
   assignedTo: number;
+  dueDate?: string;  // ISO yyyy-MM-dd
+  tags?: string;     // comma-separated
   createdAt?: string;
   updatedAt?: string;
 }

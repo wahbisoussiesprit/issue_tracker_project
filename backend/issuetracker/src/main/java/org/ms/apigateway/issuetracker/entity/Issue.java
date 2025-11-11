@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "issues")
@@ -36,6 +37,11 @@ public class Issue {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private LocalDate dueDate;
+
+    @Column(length = 512)
+    private String tags; // comma-separated
 
     @PrePersist
     public void prePersist() {

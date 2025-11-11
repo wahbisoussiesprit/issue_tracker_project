@@ -1,21 +1,19 @@
-<div class="container mt-5" style="max-width: 480px;">
-  <div class="card shadow-sm">
-    <div class="card-body p-4">
-      <h3 class="mb-3 text-center">Sign in</h3>
-      <form (ngSubmit)="submit()">
-        <div class="mb-3">
-          <label class="form-label">Username</label>
-          <input class="form-control" [(ngModel)]="username" name="username" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Password</label>
-          <input type="password" class="form-control" [(ngModel)]="password" name="password" required>
-        </div>
-        <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
-        <button class="btn btn-primary w-100" type="submit" [disabled]="loading">
-          {{ loading ? 'Signing in...' : 'Login' }}
-        </button>
-      </form>
-    </div>
+<div class="mx-auto max-w-md px-4 py-10">
+  <div class="card p-6">
+    <h3 class="text-center text-xl font-semibold mb-4 dark:text-white">Sign in</h3>
+    <form (ngSubmit)="submit()" class="space-y-4">
+      <div>
+        <label class="block text-sm mb-1">Username</label>
+        <input class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" [(ngModel)]="username" name="username" required>
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Password</label>
+        <input type="password" class="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" [(ngModel)]="password" name="password" required>
+      </div>
+      <div *ngIf="error" class="rounded-md bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-3 py-2 text-sm">{{ error }}</div>
+      <button class="btn-primary w-full" type="submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Login' }}
+      </button>
+    </form>
   </div>
 </div>
