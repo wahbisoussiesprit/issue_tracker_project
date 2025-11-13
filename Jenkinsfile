@@ -12,6 +12,7 @@ pipeline {
   }
 
   stages {
+
     stage('Checkout') {
       steps {
         echo '📥 Cloning repository...'
@@ -28,6 +29,20 @@ pipeline {
           sh 'ls -alh'           // Debug
           sh 'cat pom.xml'       // Debug
           sh 'mvn clean package -DskipTests'
+        }
+      }
+    }
+
+    stage('SonarQube Analysis') {
+      steps {
+        script {
+          def scannerHome = tool 'SonarScanner'
+          withSonarQubeEnv('SonarQube') {
+            dir("${BACKEND_DIR}") {
+              echo '🔍 Running SonarQube analysis...'
+              sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=issue-tracker -Dsonar.sources=src -Dsonar.java.binaries=target"
+            }
+          }
         }
       }
     }
