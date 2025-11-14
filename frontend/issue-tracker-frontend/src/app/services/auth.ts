@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 interface LoginResponse {
   token: string;
@@ -22,12 +23,12 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('http://localhost:8080/api/auth/login', { username, password })
+    return this.http.post<LoginResponse>(`${environment.apiBase}/auth/login`, { username, password })
       .pipe(tap(res => this.setAuth(res)));
   }
 
   register(username: string, email: string, password: string, role?: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('http://localhost:8080/api/auth/register', { username, email, password, role })
+    return this.http.post<LoginResponse>(`${environment.apiBase}/auth/register`, { username, email, password, role })
       .pipe(tap(res => this.setAuth(res)));
   }
 
