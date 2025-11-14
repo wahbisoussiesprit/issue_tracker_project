@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-issuetracker
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: issuetracker_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./backend/issuetracker
+    container_name: backend-issuetracker
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/issuetracker_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
+  frontend:
+    build: ./frontend/issue-tracker-frontend
+    container_name: frontend-issuetracker
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
