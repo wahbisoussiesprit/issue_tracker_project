@@ -1,4 +1,5 @@
 services:
+
   mysql:
     image: mysql:8
     container_name: mysql-issuetracker
@@ -17,6 +18,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/issuetracker_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+
+      # for Prometheus Actuator (once you add Micrometer)
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+      MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED: "true"
+
     ports:
       - "8081:8080"
     depends_on:
@@ -27,6 +33,16 @@ services:
     container_name: frontend-issuetracker
     ports:
       - "4200:80"
+    depends_on:
+      - backend
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
     depends_on:
       - backend
 
