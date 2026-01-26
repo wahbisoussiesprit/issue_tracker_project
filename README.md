@@ -1,6 +1,10 @@
-# Issue Tracker – Full‑Stack DevOps Demo
+# Issue Tracker – Full‑Stack DevOps 
 
 A modern full‑stack **Issue Tracker** application built for portfolio and DevOps practice.
+
+# Diagrams Related
+
+
 
 It demonstrates:
 
