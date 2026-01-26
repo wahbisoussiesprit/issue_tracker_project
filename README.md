@@ -2,9 +2,11 @@
 
 A modern full‑stack **Issue Tracker** application built for portfolio and DevOps practice.
 
-# Diagrams Related
+# System Architectures
 
-(ContainerView-dark.png)
+![System Architecture](seq_issue_tracker.png)
+![Container View](ContainerView-dark.png)
+
 
 It demonstrates:
 
